@@ -1,0 +1,36 @@
+{
+  "name": "last-time",
+  "version": "1.0.0",
+  "description": "A plugin for enabling you to see this same note from last time (a previous period)",
+  "main": "main.js",
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "dev": "vite build --watch",
+    "build": "npx svelte-check && vite build",
+    "bumpversion": "node version-bump.mjs && git add manifest.json versions.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^1.0.1",
+    "@tsconfig/svelte": "^3.0.0",
+    "@types/node": "^16.11.6",
+    "@typescript-eslint/eslint-plugin": "5.32.0",
+    "@typescript-eslint/parser": "5.32.0",
+    "builtin-modules": "3.3.0",
+    "eslint": "^8.21.0",
+    "eslint-plugin-svelte3": "^4.0.0",
+    "obsidian": "latest",
+    "sass": "^1.64.1",
+    "svelte": "^3.49.0",
+    "svelte-check": "^2.8.0",
+    "svelte-preprocess": "^4.10.7",
+    "tslib": "2.4.0",
+    "typescript": "4.7.4",
+    "vite": "^3.0.0"
+  },
+  "dependencies": {
+    "obsidian-daily-notes-interface": "^0.9.4"
+  }
+}
