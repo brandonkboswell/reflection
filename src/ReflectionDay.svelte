@@ -1,14 +1,15 @@
 <script lang="ts">
   import { MarkdownRenderer } from 'obsidian';
-  export let plugin;
+  import { onMount } from 'svelte';
   export let file;
   export let title = file.basename;
+  export let index;
   export let content: string;
   export let currentFile;
   export let app: any;
   export let view;
   export let Keymap: any;
-  import {onMount, tick} from 'svelte'
+
 
   async function onInit() {
     if (file) {
@@ -25,8 +26,16 @@
     }
   }
 
+  function titleLookup(key) {
+    if (key === "1") {
+      return "Last Year"
+    }
+
+    return `${key} years ago`
+  }
+
   function titleClick($event) {
-    app.workspace.openLinkText(title, currentFile.path)
+    openLink($event, file.path, currentFile.path)
   }
 
   function bodyClick($event) {
@@ -49,8 +58,8 @@
 
 <div class="reflection-day">
   {#if file}
-    <div class="reflection-day__header">
-      <span on:click={titleClick}>{title}</span>
+    <div class="reflection-day__header" on:click={titleClick}>
+      <span>{titleLookup(index)}</span>
     </div>
     {#if content}
       <div on:click={bodyClick} class="reflection-day__body">{@html content}</div>
@@ -69,6 +78,12 @@
     --grid-unit: 4px;
   }
 
+  :global(.cm-content) {
+    // For whatever reason when the embedded backlinks option is disabled
+    // then the content container has a large amount of bottom padding
+    padding-bottom: 0px !important;
+  }
+
   :global(.reflection-container) {
     width: calc(var(--line-width-adaptive) - var(--folding-offset));
     max-width: calc(var(--max-width) - var(--folding-offset));
@@ -77,9 +92,10 @@
   }
 
   .reflection-day {
+    margin-top: calc(var(--grid-unit) * 4);
     border: 1px solid var(--background-modifier-border);
     border-radius: calc(var(--grid-unit) * 4);
-    margin-bottom: calc(var(--grid-unit) * 4);
+    margin-bottom: calc(var(--grid-unit) * 6);
 
     &__body {
       border-top: 1px solid var(--background-modifier-border);

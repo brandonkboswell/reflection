@@ -11,9 +11,10 @@
 </script>
 
 <div>
-  {#each files as file}
+  {#each Object.entries(files).filter(([key, value]) => value !== null) as [index, file] }
     <ReflectionDay
       currentFile={currentFile}
+      index={index}
       file={file}
       plugin={plugin}
       view={view}
