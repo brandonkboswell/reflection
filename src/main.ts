@@ -1,5 +1,4 @@
-import { Plugin, MarkdownRenderer, Keymap, TFile, WorkspaceLeaf } from 'obsidian';
-import ReflectionDay from "./ReflectionDay.svelte";
+import { Plugin, Keymap } from 'obsidian';
 import ReflectionSection from "./ReflectionSection.svelte";
 import {
   getAllDailyNotes,
@@ -40,7 +39,7 @@ function insertAfter(referenceNode, newNode) {
 export default class Reflection extends Plugin {
   ready: false;
 
-  async runOnLeaf(leaf: WorkspaceLeaf) {
+  async runOnLeaf(leaf) {
     if (!this.ready) {
       console.log('Not Ready, Re-initing');
       await this.init();
@@ -104,10 +103,18 @@ export default class Reflection extends Plugin {
 
     const parentContainer = editor.containerEl.querySelector('.cm-sizer');
     const contentContainer = editor.containerEl.querySelector('.cm-contentContainer');
+    const cmContentContainer = editor.containerEl.querySelector('.cm-content');
+    const embeddedLinksContainer = parentContainer.querySelector('.embedded-backlinks');
+    // const contentContainer = editor.containerEl.querySelector('.cm-active');
 
     // We should remove the existing one first
     removeElementsByClass(parentContainer, reflectionClass)
-    insertAfter(contentContainer, div)
+
+    if (embeddedLinksContainer) {
+      embeddedLinksContainer.parentNode.insertBefore(div, embeddedLinksContainer)
+    } else {
+      insertAfter(contentContainer, div)
+    }
 
     new ReflectionSection({
       target: div,
@@ -133,7 +140,7 @@ export default class Reflection extends Plugin {
     periodicNotesSettings.daily = getDailyNoteSettings();
   }
 
-  getFileFromLastTime(file: TFile, fileType: string) {
+  getFileFromLastTime(file, fileType: string) {
     let lastTimeFile;
 
     switch(fileType) {
@@ -150,7 +157,7 @@ export default class Reflection extends Plugin {
     return lastTimeFile;
   }
 
-  getFilesFromLastTime(file: TFile, fileType: string) {
+  getFilesFromLastTime(file, fileType: string) {
     let lastTimeFile;
     let files = [];
 
@@ -169,38 +176,35 @@ export default class Reflection extends Plugin {
     return files;
   }
 
-  _getFileFromPreviousPeriod(file: TFile, fileType, lookback) {
+  _getFileFromPreviousPeriod(file, fileType, lookback) {
     let location;
     let unit;
+    let method;
 
     switch (fileType) {
       case "daily":
         unit = 'day'
         location = noteCaches.daily;
+        return getDailyNote(moment(getDateFromFile(file, unit)).subtract(lookback, "years"), location)
         break;
       case "weekly":
         unit = 'week'
         location = noteCaches.weekly;
+        return getWeeklyNote(moment(getDateFromFile(file, unit)).subtract(lookback, "years"), location)
         break;
       default:
         throw 'Unknown File Type'
         return;
     }
-
-    return getDailyNote(moment(getDateFromFile(file, unit)).subtract(lookback, "years"), location)
   }
 
-  _getFilesFromPreviousPeriods(file: TFile, fileType) {
-    let files = [];
+  _getFilesFromPreviousPeriods(file, fileType) {
+    let files = {};
     let i = 1;
     let checkLength = 5;
 
-    while (i < checkLength) {
-      let result = this._getFileFromPreviousPeriod(file, fileType, i)
-
-      if (result) {
-        files.push(result)
-      }
+    while (i <= checkLength) {
+      files[i] = this._getFileFromPreviousPeriod(file, fileType, i)
 
       i++;
     }
