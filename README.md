@@ -1,9 +1,7 @@
 # Reflection
-When this plugin is enabled it will show any daily or weekly notes associated with the opened day. For example if you have a note from 2023-07-01 it will show you notes from 2022-07-01 as well as previous years. While lookling at weekly notes it will show you weekly notes from previous years with the same week number.
+When this plugin is enabled, it will show past daily or weekly notes from the associated daily/weekly note. For example, if you have a daily note from 2023-07-01 it will show you the daily note from 2022-07-01 as well as previous years (if there are any). While lookling at weekly notes, it will show you weekly notes from previous years with the same week number.
 
 ![Screenshot](https://github.com/brandonkboswell/reflection/blob/main/thumbnail.png?raw=true)
-
-https://youtu.be/U2MLHcaCbl4
 
 ## Installation
 This plugin is not yet available directly within Obsidian, but you can manually install it while it is going through the review process by following the instructions in the video below:
