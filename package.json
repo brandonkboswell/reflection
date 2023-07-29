@@ -1,7 +1,7 @@
 {
-  "name": "last-time",
+  "name": "reflection",
   "version": "1.0.0",
-  "description": "A plugin for enabling you to see this same note from last time (a previous period)",
+  "description": "An Obsidian Plugin for seeing daily and weekly notes from this day in years past.",
   "main": "main.js",
   "scripts": {
     "lint": "eslint . --ext .ts",

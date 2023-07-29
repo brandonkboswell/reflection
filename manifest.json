@@ -1,9 +1,9 @@
 {
-  "id": "obsidian-reflection",
+  "id": "reflection",
   "name": "Reflection",
   "version": "1.0.0",
   "minAppVersion": "0.15.0",
-  "description": "A plugin for enabling you to see previous temporal notes from years past. Works for Daily and Weekly notes",
+  "description": "An Obsidian Plugin for seeing daily and weekly notes from this day in years past.",
   "author": "Brandon Boswell",
   "authorUrl": "https://brandonkboswell.com/",
   "fundingUrl": "https://link.brandonkboswell.com/coffee",
