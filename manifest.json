@@ -3,7 +3,7 @@
   "name": "Reflection",
   "version": "1.0.0",
   "minAppVersion": "0.15.0",
-  "description": "An Obsidian Plugin for seeing daily and weekly notes from this day in years past.",
+  "description": "Shows daily and weekly notes from this day in years past.",
   "author": "Brandon Boswell",
   "authorUrl": "https://brandonkboswell.com/",
   "fundingUrl": "https://link.brandonkboswell.com/coffee",

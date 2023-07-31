@@ -1,4 +1,4 @@
-import { Plugin, Keymap } from 'obsidian';
+import { Plugin, Keymap, moment } from 'obsidian';
 import ReflectionSection from "./ReflectionSection.svelte";
 import {
   getAllDailyNotes,
@@ -25,7 +25,6 @@ let reflectionClass = "reflection-container"
 let leafRegistry = {}
 
 function removeElementsByClass(domNodeToSearch, className){
-  console.log('Removing', domNodeToSearch, className)
   const elements = domNodeToSearch.getElementsByClassName(className);
   while(elements.length > 0){
     elements[0].parentNode.removeChild(elements[0]);
@@ -41,7 +40,6 @@ export default class Reflection extends Plugin {
 
   async runOnLeaf(leaf) {
     if (!this.ready) {
-      console.log('Not Ready, Re-initing');
       await this.init();
     }
 
@@ -62,12 +60,10 @@ export default class Reflection extends Plugin {
 
   handleRegisterEvents() {
     this.registerEvent(this.app.workspace.on('active-leaf-change', async (leaf) => {
-      console.log('active-leaf-change', leaf);
       this.runOnLeaf(leaf);
     }));
 
     this.registerEvent(this.app.workspace.on('window-open', async () => {
-      console.log('window-open');
       this.updateAllLeaves();
     }));
   }
@@ -237,18 +233,14 @@ export default class Reflection extends Plugin {
   }
 
   async init() {
-    console.log('Loading Reflection Plugin');
-
     // Sometimes this loads before the dependencies are ready
     // This stops that from throwing an unncessary error
     try {
       await this.establishNoteCaches();
       await this.gatherPeriodicNoteSettings();
       this.ready = true;
-
-      console.log('Reflection is ready')
     } catch(e) {
-      console.log('Dependencies not yet ready', e);
+      // Dependencies not yet ready
     }
   }
 

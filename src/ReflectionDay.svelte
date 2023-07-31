@@ -19,7 +19,7 @@
       try {
         await MarkdownRenderer.renderMarkdown(markdown, markdownRenderWrapper, currentFile, view);
       } catch (error) {
-        console.log('Markdown Error', error)
+        // Likely Markdown Error from other plugins
       }
       title = file.basename;
       content = markdownRenderWrapper.innerHTML;
