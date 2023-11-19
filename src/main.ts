@@ -10,23 +10,23 @@ import {
   getDailyNoteSettings
 } from "obsidian-daily-notes-interface";
 
-let noteCaches = {
+const noteCaches = {
   'weekly': null,
   'daily': null,
 }
 
-let periodicNotesSettings = {
+const periodicNotesSettings = {
   'weekly': null,
   'daily': null,
 }
 
-let reflectionClass = "reflection-container"
+const reflectionClass = "reflection-container"
 
-let leafRegistry = {}
+const leafRegistry = {}
 
-function removeElementsByClass(domNodeToSearch, className){
+function removeElementsByClass(domNodeToSearch, className) {
   const elements = domNodeToSearch.getElementsByClassName(className);
-  while(elements.length > 0){
+  while (elements.length > 0) {
     elements[0].parentNode.removeChild(elements[0]);
   }
 }
@@ -36,7 +36,7 @@ function insertAfter(referenceNode, newNode) {
 }
 
 export default class Reflection extends Plugin {
-  ready: false;
+  ready = false;
 
   async runOnLeaf(leaf) {
     if (!this.ready) {
@@ -45,8 +45,8 @@ export default class Reflection extends Plugin {
 
     if (!this.doesLeafNeedUpdating(leaf)) { return false }
 
-    let activeView = leaf.view
-    let activeFile = leaf.view.file
+    const activeView = leaf.view
+    const activeFile = leaf.view.file
 
     if (activeView && activeFile) {  // The active view might not be a markdown view
       this.setLeafRegistry(leaf)
@@ -70,7 +70,7 @@ export default class Reflection extends Plugin {
 
   updateAllLeaves() {
     const { workspace } = this.app;
-    let leaves = workspace.getLeavesOfType('markdown')
+    const leaves = workspace.getLeavesOfType('markdown')
 
     leaves.forEach(l => this.runOnLeaf(l));
   }
@@ -84,7 +84,7 @@ export default class Reflection extends Plugin {
   }
 
   async addComponentToFrame(view, editor, currentFile, fileType) {
-    let props = {
+    const props = {
       app: this.app,
       currentFile: currentFile,
       fileType,
@@ -99,7 +99,6 @@ export default class Reflection extends Plugin {
 
     const parentContainer = editor.containerEl.querySelector('.cm-sizer');
     const contentContainer = editor.containerEl.querySelector('.cm-contentContainer');
-    const cmContentContainer = editor.containerEl.querySelector('.cm-content');
     const embeddedLinksContainer = parentContainer.querySelector('.embedded-backlinks');
     // const contentContainer = editor.containerEl.querySelector('.cm-active');
 
@@ -139,13 +138,13 @@ export default class Reflection extends Plugin {
   getFileFromLastTime(file, fileType: string) {
     let lastTimeFile;
 
-    switch(fileType) {
+    switch (fileType) {
       case "daily":
         lastTimeFile = getDailyNote(moment(getDateFromFile(file, "day")).subtract(1, "years"), noteCaches.daily)
-      break;
+        break;
       case "weekly":
         lastTimeFile = getWeeklyNote(moment(getDateFromFile(file, "week")).subtract(1, "years"), noteCaches.weekly);
-      break;
+        break;
       default:
         return;
     }
@@ -154,8 +153,9 @@ export default class Reflection extends Plugin {
   }
 
   getFilesFromLastTime(file, fileType: string) {
-    let lastTimeFile;
-    let files = [];
+    // This will return an object with the files from the previous years
+    // Where the key is how many years ago this file was from.
+    let files = {};
 
     switch (fileType) {
       case "daily":
@@ -166,7 +166,6 @@ export default class Reflection extends Plugin {
         break;
       default:
         throw 'Unknown File Type'
-        return;
     }
 
     return files;
@@ -175,29 +174,29 @@ export default class Reflection extends Plugin {
   _getFileFromPreviousPeriod(file, fileType, lookback) {
     let location;
     let unit;
-    let method;
 
     switch (fileType) {
       case "daily":
         unit = 'day'
         location = noteCaches.daily;
         return getDailyNote(moment(getDateFromFile(file, unit)).subtract(lookback, "years"), location)
-        break;
       case "weekly":
         unit = 'week'
         location = noteCaches.weekly;
         return getWeeklyNote(moment(getDateFromFile(file, unit)).subtract(lookback, "years"), location)
-        break;
       default:
         throw 'Unknown File Type'
-        return;
     }
   }
 
   _getFilesFromPreviousPeriods(file, fileType) {
-    let files = {};
+    // We use the key in this object to know how many years back a file was
+    // Otherwise we could use an array and just use the index
+    // We're not necessarily going to have a file each year
+    const files = {};
     let i = 1;
-    let checkLength = 5;
+    // Define how many years back we want to look back
+    const checkLength = 5;
 
     while (i <= checkLength) {
       files[i] = this._getFileFromPreviousPeriod(file, fileType, i)
@@ -209,13 +208,11 @@ export default class Reflection extends Plugin {
   }
 
   getTypeOfFile(file) {
-    switch(file.parent.path) {
+    switch (file.parent.path) {
       case periodicNotesSettings.daily.folder:
         return "daily"
-        break;
       case periodicNotesSettings.weekly.folder:
         return "weekly"
-        break;
       default:
         return;
     }
@@ -239,7 +236,7 @@ export default class Reflection extends Plugin {
       await this.establishNoteCaches();
       await this.gatherPeriodicNoteSettings();
       this.ready = true;
-    } catch(e) {
+    } catch (e) {
       // Dependencies not yet ready
     }
   }

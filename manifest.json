@@ -1,11 +1,11 @@
 {
-  "id": "reflection",
-  "name": "Reflection",
-  "version": "1.0.0",
-  "minAppVersion": "0.15.0",
-  "description": "Shows daily and weekly notes from this day in years past.",
-  "author": "Brandon Boswell",
-  "authorUrl": "https://brandonkboswell.com/",
-  "fundingUrl": "https://link.brandonkboswell.com/coffee",
-  "isDesktopOnly": true
+	"id": "reflection",
+	"name": "Reflection",
+	"version": "1.0.1",
+	"minAppVersion": "0.15.0",
+	"description": "Shows daily and weekly notes from this day in years past.",
+	"author": "Brandon Boswell",
+	"authorUrl": "https://brandonkboswell.com/",
+	"fundingUrl": "https://link.brandonkboswell.com/coffee",
+	"isDesktopOnly": true
 }

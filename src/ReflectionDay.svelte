@@ -1,15 +1,16 @@
 <script lang="ts">
   import { MarkdownRenderer } from 'obsidian';
   import { onMount } from 'svelte';
+
   export let file;
   export let title = file.basename;
   export let index;
-  export let content: string;
   export let currentFile;
   export let app: any;
   export let view;
   export let Keymap: any;
 
+  let content: string | null;
 
   async function onInit() {
     if (file) {
@@ -21,6 +22,7 @@
       } catch (error) {
         // Likely Markdown Error from other plugins
       }
+
       title = file.basename;
       content = markdownRenderWrapper.innerHTML;
     }
@@ -85,10 +87,9 @@
   }
 
   :global(.reflection-container) {
-    width: calc(var(--line-width-adaptive) - var(--folding-offset));
-    max-width: calc(var(--max-width) - var(--folding-offset));
-    margin-right: auto;
-    margin-left: max(calc(50% + var(--folding-offset) - var(--line-width-adaptive)/ 2),calc(50% + var(--folding-offset) - var(--max-width)/ 2))!important;
+    max-width: var(--max-width);
+    width: var(--line-width);
+    margin-inline: var(--content-margin)!important;
   }
 
   .reflection-day {

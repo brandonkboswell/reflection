@@ -5,7 +5,7 @@
   export let fileType;
   export let app;
   export let view;
-  export let plugin;
+  export let plugin : any;
 
   let files = plugin.getFilesFromLastTime(currentFile, fileType);
 </script>
@@ -16,10 +16,9 @@
       currentFile={currentFile}
       index={index}
       file={file}
-      plugin={plugin}
       view={view}
       app={app}
-      Keymap={Keymap}/>
+      Keymap={Keymap} />
   {/each}
 </div>
 
