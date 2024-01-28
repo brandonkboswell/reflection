@@ -1,6 +1,6 @@
 {
   "name": "reflection",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "An Obsidian Plugin for seeing daily and weekly notes from this day in years past.",
   "main": "main.js",
   "scripts": {

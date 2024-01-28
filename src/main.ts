@@ -208,14 +208,14 @@ export default class Reflection extends Plugin {
   }
 
   getTypeOfFile(file) {
-    switch (file.parent.path) {
-      case periodicNotesSettings.daily.folder:
-        return "daily"
-      case periodicNotesSettings.weekly.folder:
-        return "weekly"
-      default:
-        return;
+    if (file.parent.path.includes(periodicNotesSettings.daily.folder)) {
+      return "daily"
     }
+
+    if (file.parent.path.includes(periodicNotesSettings.weekly.folder)) {
+      return "weekly"
+    }
+    return;
   }
 
   async renderContent(view, file) {
