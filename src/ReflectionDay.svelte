@@ -18,7 +18,13 @@
       const markdownRenderWrapper = document.createElement('div');
 
       try {
-        await MarkdownRenderer.renderMarkdown(markdown, markdownRenderWrapper, currentFile, view);
+		await MarkdownRenderer.render(
+          app,
+          markdown,
+          markdownRenderWrapper,
+          currentFile.path,
+          view,
+        );
       } catch (error) {
         // Likely Markdown Error from other plugins
       }

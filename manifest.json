@@ -1,7 +1,7 @@
 {
 	"id": "reflection",
 	"name": "Reflection",
-	"version": "1.0.1",
+	"version": "1.0.4",
 	"minAppVersion": "0.15.0",
 	"description": "Shows daily and weekly notes from this day in years past.",
 	"author": "Brandon Boswell",
